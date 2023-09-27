@@ -1,0 +1,19 @@
+.scale-7 {
+    transform: scale(0.7) !important;
+}
+
+.double-range-slider-container {
+    margin: 20px 20px !important;
+}
+
+.top-20 {
+    top: 20px;
+}
+.button-filter {
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    z-index: 100;
+    background: #0a58ca;
+    padding: 20px;
+}
