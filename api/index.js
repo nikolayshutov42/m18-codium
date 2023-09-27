@@ -25,6 +25,6 @@ export async function getRooms(params) {
     return await request(`rooms/`, 'GET', null, null, params)
 }
 
-export async function getBuild() {
-    return await request(`api/levels/?group=1`, 'GET')
+export async function getBuild(params) {
+    return await request(`levels/`, 'GET', null, null, params)
 }

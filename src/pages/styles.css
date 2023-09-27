@@ -1,0 +1,43 @@
+.view svg g path {
+  fill: #8abe3b;
+  opacity: 0;
+  transition: 0.1s all;
+
+}
+.view svg g {
+cursor: pointer;
+}
+.view img {
+  z-index: -1;
+  position: absolute;
+  height: 100%;
+  width: auto
+}
+.view .width {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.view svg {
+  z-index: 10000;
+  height: 100%;
+  width: auto
+}
+@media (orientation: portrait) {
+  .view img {
+    height: 100%;
+    width: auto
+  }
+  .view svg {
+    height: 100%;
+    width: auto
+  }
+}
+.view svg g:hover path {
+  z-index: 10000;
+
+  fill: #8abe3b;
+  opacity: 0.6;
+  transition: 0.1s all;
+
+}
