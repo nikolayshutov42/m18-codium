@@ -9,13 +9,15 @@ import { useDebounce } from 'use-debounce'
 import 'react-loading-skeleton/dist/skeleton.css'
 import { Button } from 'reactstrap'
 import Select from 'react-select'
-import 'react-responsive-modal/styles.css';
-import { Modal } from 'react-responsive-modal';
+import 'react-responsive-modal/styles.css'
+import { Modal } from 'react-responsive-modal'
+import { useNavigate } from 'react-router-dom'
 
 function App() {
+    const navigation = useNavigate()
     const [loading, setLoading] = useState(true)
     const [rooms, setRooms] = useState({})
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false)
     const [filters, setFilters] = useState({
         building: [],
         price: null,
@@ -48,7 +50,7 @@ function App() {
                             rooms: [...(rooms.rooms || []), ...res.rooms]
                         }
                         setRooms(filters?.page > 1 ? data : res)
-                        scrollToTop()
+                        // scrollToTop()
                     })
                     .finally(() => setLoading(false)),
             0
@@ -88,6 +90,7 @@ function App() {
             arr.push(num)
         }
         setFilters({ ...filters, building: arr, page: 1 })
+        scrollToTop()
     }
 
     const roomOptions = [
@@ -103,6 +106,9 @@ function App() {
     const filtersView = () => {
         return (
             <div className="d-flex flex-column px-5">
+                <Button className="mb-3" onClick={() => navigation('/view')}>
+                    Визуальный выбор
+                </Button>
                 <Select
                     styles={{
                         // Fixes the overlapping problem of the component
@@ -113,9 +119,10 @@ function App() {
                     }}
                     className="mb-4"
                     placeholder="Выберите тип квартиры"
-                    onChange={(e) =>
+                    onChange={(e) => {
                         setFilters({ ...filters, room: e, page: 1 })
-                    }
+                        scrollToTop()
+                    }}
                     // closeMenuOnSelect={false}
                     isMulti
                     options={roomOptions}
@@ -130,13 +137,14 @@ function App() {
                         defaultValue={[2, 18]}
                         min={2}
                         max={18}
-                        onChange={(e) =>
+                        onChange={(e) => {
                             setFilters({
                                 ...filters,
                                 page: 1,
                                 floor: e.join('-')
                             })
-                        }
+                            scrollToTop()
+                        }}
                     />
                 </div>
 
@@ -151,13 +159,14 @@ function App() {
                         defaultValue={[2133601, 7958762]}
                         min={2133601}
                         max={7958762}
-                        onChange={(e) =>
+                        onChange={(e) => {
                             setFilters({
                                 ...filters,
                                 page: 1,
                                 price: e.join('-')
                             })
-                        }
+                            scrollToTop()
+                        }}
                     />
                 </div>
 
@@ -172,13 +181,14 @@ function App() {
                         defaultValue={[22.02, 81.25]}
                         min={22.02}
                         max={81.25}
-                        onChange={(e) =>
+                        onChange={(e) => {
                             setFilters({
                                 ...filters,
                                 page: 1,
                                 area: e.join('-')
                             })
-                        }
+                            scrollToTop()
+                        }}
                     />
                 </div>
 
@@ -204,7 +214,14 @@ function App() {
 
     return (
         <div className="container text-center py-3">
-            <Button onClick={() => setOpen(true)} data-toggle="modal" data-target="#exampleModal" className='d-flex d-md-flex d-lg-none rounded-5 bg-primary button-filter p-3'>Filter</Button>
+            <Button
+                onClick={() => setOpen(true)}
+                data-toggle="modal"
+                data-target="#exampleModal"
+                className="d-flex d-md-flex d-lg-none rounded-5 bg-primary button-filter p-3"
+            >
+                Filter
+            </Button>
 
             <Modal open={open} onClose={() => setOpen(false)} center>
                 {filtersView()}
@@ -215,9 +232,13 @@ function App() {
                     {filtersView()}
                 </div>
                 <div className="col-auto col-lg-8 text-center">
-                    {room_list?.length ? room_list?.map((room, index) => (
-                        <Card key={index} data={room} />
-                    )) : <span className='text-center'>Список пуст</span>}
+                    {room_list?.length ? (
+                        room_list?.map((room, index) => (
+                            <Card key={index} data={room} />
+                        ))
+                    ) : (
+                        <span className="text-center">Список пуст</span>
+                    )}
                     {loading ? <div>Loading ....</div> : null}
                 </div>
             </div>
